@@ -55,8 +55,8 @@ class CPICalculator:
         months_between = (year2 - year1) * 12 + (month2 - month1)
         time_between_dates = months_between / 12
 
-        # Average annual rate of change, found by solving cpi2 = cpi1 * (1 + rate) ** years for the rate
-        average_annual_rate = ((cpi2 / cpi1) ** (1 / time_between_dates) - 1) * 100
+        # abs makes the number of years positive, so going back in time gives a negative rate like the Bank of Canada
+        average_annual_rate = ((cpi2 / cpi1) ** (1 / abs(time_between_dates)) - 1) * 100
 
         # Returns all of the results in a dictionary so each value can be accessed by name
         return {
@@ -105,5 +105,35 @@ class CPICalculator:
         fig.savefig('cpi_graph.png')
         plt.show()
 
+
+# Asks the user for the cost and keeps asking until a valid positive number is entered
+def get_cost():
+    while True:
+        cost = input("Enter the cost of the goods or services: ")
+
+        # Removes dollar signs and commas so inputs like $1,234.56 are accepted
+        cost = cost.replace('$', '').replace(',', '').replace(' ', '').strip()
+
+        # Checks every character to make sure the input only contains digits and at most one decimal point
+        valid = True
+        decimal_points = 0
+        for character in cost:
+            if character == '.':
+                decimal_points = decimal_points + 1
+            elif character not in '0123456789':
+                valid = False
+
+        # Rejects letters or symbols, more than one decimal point, or an empty input
+        if valid == False or decimal_points > 1 or cost == '' or cost == '.':
+            print("Invalid input. Please enter a number.")
+            continue
+
+        # The cost must be greater than zero to calculate a meaningful result
+        cost = float(cost)
+        if cost <= 0:
+            print("Invalid input. The cost must be greater than zero.")
+            continue
+
+        return cost
 
 
