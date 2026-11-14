@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-class CPICalculator:
+# Creates the class InflationCalculator which reads the data file and extracts CPI information from it 
+class InflationCalculator:
     # Reads the CPI data file and stores it as a private data frame
     def __init__(self, file_name):
         # The first 8 lines of the file are Bank of Canada notes, not data, so they are skipped
@@ -29,6 +30,7 @@ class CPICalculator:
     def is_valid_date(self, date):
         return date + '-01' in list(self.__data['date'])
 
+
     # Looks up the CPI value for a specific month and year
     def get_cpi(self, month, year):
         # Builds the date in the same format as the data file, e.g. month 1 and year 2002 becomes '2002-01-01'
@@ -38,35 +40,38 @@ class CPICalculator:
         cpi = self.__data[self.__data['date'] == date_string]['STATIC_INFLATIONCALC'].iloc[0]
         return cpi
 
-    # Calculates the same results as the Bank of Canada inflation calculator, using months and years
-    def calculate_cpi(self, cost, month1, year1, month2, year2):
+
+    # Calculates inflation the same way as the Bank of Canada inflation calculator, using months and years
+    def calculate_inflation(self, cost, month1, year1, month2, year2):
         # Gets the CPI level for both dates
         cpi1 = self.get_cpi(month=month1, year=year1)
         cpi2 = self.get_cpi(month=month2, year=year2)
 
         # The cost in the second period grows (or shrinks) by the same ratio as the CPI
-        cpi_calculation = cost * (cpi2 / cpi1)
+        equivalent_cost = cost * (cpi2 / cpi1)
 
         # Total percentage change in prices between the two dates
-        percentage_change = ((cpi_calculation - cost) / cost) * 100
+        percentage_change = ((equivalent_cost - cost) / cost) * 100
 
         # Counts the total number of months between the dates and converts it to years
         # e.g. January 2020 to July 2022 is 30 months, which is 2.5 years
         months_between = (year2 - year1) * 12 + (month2 - month1)
-        time_between_dates = months_between / 12
+        years_between = months_between / 12
 
-        # abs makes the number of years positive, so going back in time gives a negative rate like the Bank of Canada
-        average_annual_rate = ((cpi2 / cpi1) ** (1 / abs(time_between_dates)) - 1) * 100
+        # Average annual rate, found by solving cpi2 = cpi1 * (1 + rate) ** years for the rate
+        # abs makes the number of years positive, so going back in time gives a negative rate like the Bank of Canada calculator
+        average_annual_rate = ((cpi2 / cpi1) ** (1 / abs(years_between)) - 1) * 100
 
         # Returns all of the results in a dictionary so each value can be accessed by name
         return {
             'cost': cost,
-            'cpi_calculation': cpi_calculation,
+            'equivalent_cost': equivalent_cost,
             'percentage_change': percentage_change,
-            'time_between_dates': time_between_dates,
+            'years_between': years_between,
             'average_annual_rate': average_annual_rate,
             'cpi1': cpi1,
             'cpi2': cpi2}
+
 
     # Creates a graph of the CPI and its annual percentage change, then saves it as a png file
     def plot_cpi(self):
@@ -74,12 +79,13 @@ class CPICalculator:
         dates = pd.to_datetime(self.__data['date'])
 
         # Annual percentage change compares each month to the same month one year (12 rows) earlier
-        percentage_change = self.__data['STATIC_INFLATIONCALC'].pct_change(periods=12) * 100
+        annual_percentage_change = self.__data['STATIC_INFLATIONCALC'].pct_change(periods=12) * 100
 
         # Uses NumPy to find the average annual inflation rate over the whole data set
-        average_inflation = np.mean(percentage_change)
+        average_inflation = np.mean(annual_percentage_change)
         print("Average annual inflation rate (1915-2026): " + format(average_inflation, '.2f') + "%")
 
+        # Creates the figure and axes, tight layout stops the right axis label from being cut off
         fig, ax = plt.subplots(figsize=(10, 5), layout='tight')
 
         # Plots the CPI on the left y-axis
@@ -93,7 +99,7 @@ class CPICalculator:
 
         # twinx creates a second y-axis on the right that shares the same x-axis
         ax2 = ax.twinx()
-        ax2.plot(dates, percentage_change, label='Annual % Change', color='tab:orange')
+        ax2.plot(dates, annual_percentage_change, label='Annual % Change', color='tab:orange')
         ax2.set_ylabel('Annual % Change')
 
         # Combines the legends from both axes into one, so the orange line cannot cover the legend
@@ -103,6 +109,8 @@ class CPICalculator:
 
         # Saves the graph before showing it, otherwise the saved image can be blank
         fig.savefig('cpi_graph.png')
+
+        # Displays the graph, the program pauses here until the window is closed
         plt.show()
 
 
@@ -111,8 +119,8 @@ def get_cost():
     while True:
         cost = input("Enter the cost of the goods or services: ")
 
-        # Removes dollar signs and commas so inputs like $1,234.56 are accepted
-        cost = cost.replace('$', '').replace(',', '').replace(' ', '').strip()
+        # Removes dollar signs, commas and spaces so inputs like $1,234.56 or 1 000 are accepted
+        cost = cost.replace('$', '').replace(',', '').replace(' ', '')
 
         # Checks every character to make sure the input only contains digits and at most one decimal point
         valid = True
@@ -128,8 +136,10 @@ def get_cost():
             print("Invalid input. Please enter a number.")
             continue
 
-        # The cost must be greater than zero to calculate a meaningful result
+        # Converts the cleaned text into a number now that it is known to be valid
         cost = float(cost)
+        
+        # The cost must be greater than zero to calculate a meaningful result
         if cost <= 0:
             print("Invalid input. The cost must be greater than zero.")
             continue
@@ -155,11 +165,8 @@ def get_date(prompt, calculator):
 
 
 if __name__ == "__main__":
-    # Instantiates a CPICalculator object that references the Bank of Canada CPI data file
-    calculator = CPICalculator(file_name='STATIC_INFLATIONCALC.csv')
-
-    # Creates and saves the CPI graph (close the graph window to continue to the calculator)
-    calculator.plot_cpi()
+    # Instantiates an InflationCalculator object that references the Bank of Canada CPI data file
+    calculator = InflationCalculator(file_name='STATIC_INFLATIONCALC.csv')
 
     # Prompts the user for the cost and the two dates
     cost = get_cost()
@@ -171,18 +178,22 @@ if __name__ == "__main__":
         print("The second date must be different from the first date.")
         month2, year2 = get_date(prompt="Enter the second date (YYYY-MM): ", calculator=calculator)
 
-    # Passes the user's inputs into calculate_cpi to calculate the results
-    results = calculator.calculate_cpi(cost=cost, month1=month1, year1=year1, month2=month2, year2=year2)
+    # Passes the user's inputs into calculate_inflation to calculate the results
+    results = calculator.calculate_inflation(cost=cost, month1=month1, year1=year1, month2=month2, year2=year2)
 
     # Displays the results, rounded to the nearest penny with dollar signs and currency identifiers
     print()
     print("Results")
     print("$" + format(results['cost'], ',.2f') + " CAD in " + str(year1) + "-" + format(month1, '02') +
-          " is equivalent to $" + format(results['cpi_calculation'], ',.2f') + " CAD in " +
+          " is equivalent to $" + format(results['equivalent_cost'], ',.2f') + " CAD in " +
           str(year2) + "-" + format(month2, '02'))
     print("Percentage change: " + format(results['percentage_change'], '.2f') + "%")
-    print("Number of years: " + format(results['time_between_dates'], '.2f'))
+    # Number of years is negative when the second date is before the first, matching the Bank of Canada calculator
+    print("Number of years: " + format(results['years_between'], '.2f'))
     print("Average annual rate of inflation: " + format(results['average_annual_rate'], '.2f') + "%")
     print("CPI in first period: " + format(results['cpi1'], '.1f'))
     print("CPI in second period: " + format(results['cpi2'], '.1f'))
     print("2002 CPI = 100.0")
+
+    # Creates and saves the CPI graph (close the graph window to end the program)
+    calculator.plot_cpi()
