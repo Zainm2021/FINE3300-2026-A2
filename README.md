@@ -103,7 +103,7 @@ Average annual inflation rate (1915-2026): 3.13%
 **Example 3: input validation**
 ```
 Enter the cost of the goods or services: abc
-Invalid input. Please enter a number.
+Invalid input. Please enter a valid number.
 Enter the cost of the goods or services: 0
 Invalid input. The cost must be greater than zero.
 Enter the cost of the goods or services: $1,250.50
