@@ -130,9 +130,16 @@ Average annual inflation rate (1915-2026): 3.13%
 - The data is monthly and recorded on the 1st of each month. The file contains two irregular entries (1927-04-30 and 1932-04-30), which were excluded so that each month appears only once. This matters for the graph, since the annual percentage change compares each month to the row 12 positions earlier.
 
 ## References
+## References
 - Bank of Canada, [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) (data source and equations)
 - Bank of Canada, [Understanding the consumer price index](https://www.bankofcanada.ca/2021/05/understanding-consumer-price-index/)
 - Statistics Canada, [Consumer price indexes](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes)
-- [Pandas documentation](https://pandas.pydata.org/docs/) (`read_csv` with `skiprows`, `to_datetime`, `pct_change`)
-- [Matplotlib documentation](https://matplotlib.org/stable/) (`twinx`, `axhline`, `get_legend_handles_labels`)
+- Pandas documentation, [read_csv](https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html) (used `skiprows` to skip the Bank of Canada notes at the top of the file)
+- Pandas documentation, [to_datetime](https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html) (converts the date column to real dates for the graph's x-axis)
+- Pandas documentation, [pct_change](https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.pct_change.html) (calculates the annual percentage change)
+- Matplotlib documentation, [twinx](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.twinx.html) (creates the right-hand axis)
+- Matplotlib documentation, [axhline](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.axhline.html) (draws the dotted base level line)
+- Matplotlib documentation, [get_legend_handles_labels](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.get_legend_handles_labels.html) (combines the legends from both axes)
+- Matplotlib documentation, [Color Demo](https://matplotlib.org/stable/gallery/color/color_demo.html) (line colours such as `tab:blue` and `tab:orange`)
+- W3Schools, [Python abs() Function](https://www.w3schools.com/python/ref_func_abs.asp) (used in the average annual rate calculation)
  
