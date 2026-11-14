@@ -108,7 +108,7 @@ class InflationCalculator:
         ax2.legend(lines1 + lines2, labels1 + labels2, loc='lower right')
 
         # Saves the graph before showing it, otherwise the saved image can be blank
-        fig.savefig('cpi_graph.png')
+        fig.savefig('CPI_and_Annual_Inflation_Graph.png')
 
         # Displays the graph, the program pauses here until the window is closed
         plt.show()
@@ -133,7 +133,7 @@ def get_cost():
 
         # Rejects letters or symbols, more than one decimal point, or an empty input
         if valid == False or decimal_points > 1 or cost == '' or cost == '.':
-            print("Invalid input. Please enter a number.")
+            print("Invalid input. Please enter a valid number.")
             continue
 
         # Converts the cleaned text into a number now that it is known to be valid
