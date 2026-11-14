@@ -48,7 +48,8 @@ Outside of the class, the `get_cost` and `get_date` functions prompt the user fo
 Dates can be entered in either order. If the second date is before the first, the percentage change, number of years and annual rate are negative, the same as the Bank of Canada calculator.
 
 ## CPI Graph
-![CPI Graph](CPI_and_Annual_Inflation_Graph.png)
+<img width="1000" height="500" alt="Figure_1" src="https://github.com/user-attachments/assets/84d18db9-9a69-42de-be56-c367989feef7" />
+
  
 ### Commentary
 The CPI measures the price of a fixed basket of goods and services (such as food, shelter, clothing and transportation) relative to a base period. Statistics Canada uses 2002 as the base year, so the average CPI in 2002 equals 100. The dotted line on the graph marks this base level: values below 100 mean prices were lower than in 2002, and values above 100 mean prices were higher. In September 2026 the CPI was 170.0, meaning prices were about 70% higher than in 2002.
@@ -123,16 +124,6 @@ CPI in second period: 170.0
 2002 CPI = 100.0
 Average annual inflation rate (1915-2026): 3.13%
 ```
- 
-### Comparison with the Bank of Canada Calculator
-When only a year is entered, the Bank of Canada calculator uses the most recent month with available data (September) for both years. Entering September for both dates in my calculator gives the same results as the Bank of Canada website:
- 
-| | Bank of Canada | My Calculator |
-|---|---|---|
-| $100 from 2002 to 2025 | $163.43, 63.43%, 23 years, 2.16% | $163.43, 63.43%, 23.00 years, 2.16% |
-| $100 from 2025 to 2002 | $61.19, −38.81%, −23 years, −2.11% | $61.19, −38.81%, −23.00 years, −2.11% |
- 
-Since my calculator also accepts other months, results for other months will differ from the Bank of Canada's year-only results.
  
 ## Data Notes
 - The CSV file begins with 8 lines of Bank of Canada notes (terms and conditions and the series description) before the data, so these lines are skipped when reading the file.
