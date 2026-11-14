@@ -130,7 +130,6 @@ Average annual inflation rate (1915-2026): 3.13%
 - The data is monthly and recorded on the 1st of each month. The file contains two irregular entries (1927-04-30 and 1932-04-30), which were excluded so that each month appears only once. This matters for the graph, since the annual percentage change compares each month to the row 12 positions earlier.
 
 ## References
-## References
 - Bank of Canada, [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) (data source and equations)
 - Bank of Canada, [Understanding the consumer price index](https://www.bankofcanada.ca/2021/05/understanding-consumer-price-index/)
 - Statistics Canada, [Consumer price indexes](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes)
