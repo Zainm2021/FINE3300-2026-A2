@@ -137,3 +137,52 @@ def get_cost():
         return cost
 
 
+# Asks the user for a date in the format YYYY-MM and returns the month and year as integers
+def get_date(prompt, calculator):
+    while True:
+        # The strip method ensures that any spaces entered with the date are ignored
+        date = input(prompt).strip()
+
+        # Keeps asking until the date is in the correct format and inside the data range
+        if not calculator.is_valid_date(date):
+            print("Invalid date. Please use the format YYYY-MM, between 1914-01 and 2026-09.")
+            continue
+
+        # Extracts the year (first 4 characters) and month (characters 6 and 7) from the date
+        year = int(date[0:4])
+        month = int(date[5:7])
+        return month, year
+
+
+if __name__ == "__main__":
+    # Instantiates a CPICalculator object that references the Bank of Canada CPI data file
+    calculator = CPICalculator(file_name='STATIC_INFLATIONCALC.csv')
+
+    # Creates and saves the CPI graph (close the graph window to continue to the calculator)
+    calculator.plot_cpi()
+
+    # Prompts the user for the cost and the two dates
+    cost = get_cost()
+    month1, year1 = get_date(prompt="Enter the first date (YYYY-MM): ", calculator=calculator)
+    month2, year2 = get_date(prompt="Enter the second date (YYYY-MM): ", calculator=calculator)
+
+    # The two dates must be different, otherwise the number of years is 0 and the annual rate cannot be calculated
+    while month1 == month2 and year1 == year2:
+        print("The second date must be different from the first date.")
+        month2, year2 = get_date(prompt="Enter the second date (YYYY-MM): ", calculator=calculator)
+
+    # Passes the user's inputs into calculate_cpi to calculate the results
+    results = calculator.calculate_cpi(cost=cost, month1=month1, year1=year1, month2=month2, year2=year2)
+
+    # Displays the results, rounded to the nearest penny with dollar signs and currency identifiers
+    print()
+    print("Results")
+    print("$" + format(results['cost'], ',.2f') + " CAD in " + str(year1) + "-" + format(month1, '02') +
+          " is equivalent to $" + format(results['cpi_calculation'], ',.2f') + " CAD in " +
+          str(year2) + "-" + format(month2, '02'))
+    print("Percentage change: " + format(results['percentage_change'], '.2f') + "%")
+    print("Number of years: " + format(results['time_between_dates'], '.2f'))
+    print("Average annual rate of inflation: " + format(results['average_annual_rate'], '.2f') + "%")
+    print("CPI in first period: " + format(results['cpi1'], '.1f'))
+    print("CPI in second period: " + format(results['cpi2'], '.1f'))
+    print("2002 CPI = 100.0")
