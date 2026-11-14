@@ -25,6 +25,7 @@ This method uses the CPI for both dates to produce the same results as the Bank 
 - **Percentage change:** ((Cost₂ − Cost₁) / Cost₁) × 100
 - **Number of years:** the total number of months between the two dates divided by 12 (e.g. January 2020 to July 2022 is 2.5 years)
 - **Average annual rate of inflation:** found by solving CPI₂ = CPI₁ × (1 + rate)^years for the rate
+
 All of the results are returned in a dictionary so each value can be accessed by name.
 
 ### The plot_cpi method
@@ -61,6 +62,7 @@ Some interesting parts of the graph:
 - **The 1970s and early 1980s:** inflation stayed high for over a decade, peaking at about 12.9% in 1981. This is also when the CPI line starts rising steeply.
 - **Stability since the early 1990s:** after the Bank of Canada began targeting inflation in 1991, inflation stayed close to 2%, averaging about 1.76% from 1992 to 2020.
 - **The 2022 spike:** inflation rose to about 8.1% in mid-2022 after the COVID-19 pandemic, the highest in about 40 years.
+
 Using NumPy, the average annual inflation rate over the whole data set (1915–2026) is about **3.13%**.
  
 ## Sample Output
