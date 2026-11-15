@@ -30,6 +30,7 @@ This method uses the CPI for both dates to produce the same results as the Bank 
 - **Percentage change:** ((Cost₂ − Cost₁) / Cost₁) × 100
 - **Number of years:** the total number of months between the two dates divided by 12 (e.g. January 2020 to July 2022 is 2.5 years)
 - **Average annual rate of inflation:** found by solving CPI₂ = CPI₁ × (1 + rate)^years for the rate
+
 All of the results are returned in a dictionary so each value can be accessed by name.
  
 #### User Input and Validation
@@ -46,10 +47,12 @@ This method uses Matplotlib to graph the CPI on the left axis and the annual inf
 1. Clone this repository
 2. Install the required libraries: `pip install numpy pandas matplotlib`
 3. Open the folder in Visual Studio Code
+
 **To use the inflation calculator:**
  
 4. Run `InflationCalculator.py`
 5. Enter the cost, then the first and second dates in the format `YYYY-MM` when prompted
+
 Dates can be entered in either order. If the second date is before the first, the percentage change, number of years and annual rate are negative, the same as the Bank of Canada calculator.
  
 **To create the graph:**

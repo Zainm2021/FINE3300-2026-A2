@@ -50,8 +50,8 @@ class CPIGraph:
 
         # twinx creates a second y-axis on the right that shares the same x-axis
         ax2 = ax.twinx()
-        ax2.plot(dates, annual_percentage_change, label='Annual Inflation Rate (%)', color='orange')
-        ax2.set_ylabel('Annual Inflation Rate (%)')
+        ax2.plot(dates, annual_percentage_change, label='Annual % Change (Inflation Rate)', color='orange')
+        ax2.set_ylabel('Annual % Change (Inflation Rate)')
 
         # Combines the legends from both axes into one, so the orange line cannot cover the legend
         lines1, labels1 = ax.get_legend_handles_labels()
