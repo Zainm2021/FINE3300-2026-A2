@@ -1,14 +1,12 @@
 '''
 This is my FINE3300 Assignment 2
 Below is my CPI inflation calculator that uses the Bank of Canada's monthly Consumer Price Index (CPI) data
-to find what a price in one month and year is worth in another month and year. It also graphs the CPI and
-its annual percentage change from 1914 to 2026.
+to find what a price in one month and year is worth in another month and year. 
 '''
 
-# Imports pandas to read the CSV file, matplotlib to create the graph and numpy for calculations
+
+# Imports pandas to read the CSV file
 import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
 
 
 # Creates the class InflationCalculator which reads the data file and extracts CPI information from it 
@@ -73,47 +71,6 @@ class InflationCalculator:
             'cpi2': cpi2}
 
 
-    # Creates a graph of the CPI and its annual percentage change, then saves it as a png file
-    def plot_cpi(self):
-        # Converts the date column from text to real dates so the x-axis is spaced by year
-        dates = pd.to_datetime(self.__data['date'])
-
-        # Annual percentage change compares each month to the same month one year (12 rows) earlier
-        annual_percentage_change = self.__data['STATIC_INFLATIONCALC'].pct_change(periods=12) * 100
-
-        # Uses NumPy to find the average annual inflation rate over the whole data set
-        average_inflation = np.mean(annual_percentage_change)
-        print("Average annual inflation rate (1915-2026): " + format(average_inflation, '.2f') + "%")
-
-        # Creates the figure and axes, tight layout stops the right axis label from being cut off
-        fig, ax = plt.subplots(figsize=(10, 5), layout='tight')
-
-        # Plots the CPI on the left y-axis
-        ax.plot(dates, self.__data['STATIC_INFLATIONCALC'], label='CPI', color='tab:blue')
-        ax.set_xlabel('Year')
-        ax.set_ylabel('CPI (2002=100)')
-        ax.set_title('Canada Consumer Price Index and Annual Inflation Rate (1914-2026)', fontsize=15)
-
-        # Dotted line through the base level, where the CPI equals 100 (the 2002 average)
-        ax.axhline(y=100, linestyle=':', color='tab:grey', label='Base Level (2002 = 100)')
-
-        # twinx creates a second y-axis on the right that shares the same x-axis
-        ax2 = ax.twinx()
-        ax2.plot(dates, annual_percentage_change, label='Annual % Change', color='tab:orange')
-        ax2.set_ylabel('Annual % Change')
-
-        # Combines the legends from both axes into one, so the orange line cannot cover the legend
-        lines1, labels1 = ax.get_legend_handles_labels()
-        lines2, labels2 = ax2.get_legend_handles_labels()
-        ax2.legend(lines1 + lines2, labels1 + labels2, loc='lower right')
-
-        # Saves the graph before showing it, otherwise the saved image can be blank
-        fig.savefig('CPI_and_Annual_Inflation_Graph.png')
-
-        # Displays the graph, the program pauses here until the window is closed
-        plt.show()
-
-
 # Asks the user for the cost and keeps asking until a valid positive number is entered
 def get_cost():
     while True:
@@ -168,6 +125,17 @@ if __name__ == "__main__":
     # Instantiates an InflationCalculator object that references the Bank of Canada CPI data file
     calculator = InflationCalculator(file_name='STATIC_INFLATIONCALC.csv')
 
+    # Displays a short introduction and instructions so the user knows what to enter
+    print("This is a CPI Inflation Calculator")
+    print("It allows you to find out the value of an amount of money in one month and year compared to another month and year,")
+    print("using the Bank of Canada's monthly Consumer Price Index (CPI) data.")
+    print()
+    print("Instructions:")
+    print("- Enter the cost in Canadian dollars (e.g. 100, $1,250.50 or 1 000)")
+    print("- Enter each date as YYYY-MM (e.g. 2002-09), between 1914-01 and 2026-09")
+    print("- Dates can be entered in either order")
+    print()
+
     # Prompts the user for the cost and the two dates
     cost = get_cost()
     month1, year1 = get_date(prompt="Enter the first date (YYYY-MM): ", calculator=calculator)
@@ -194,6 +162,3 @@ if __name__ == "__main__":
     print("CPI in first period: " + format(results['cpi1'], '.1f'))
     print("CPI in second period: " + format(results['cpi2'], '.1f'))
     print("2002 CPI = 100.0")
-
-    # Creates and saves the CPI graph (close the graph window to end the program)
-    calculator.plot_cpi()
