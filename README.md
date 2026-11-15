@@ -51,19 +51,14 @@ Dates can be entered in either order. If the second date is before the first, th
 ## CPI Graph
 <img width="1000" height="500" alt="Figure_1" src="https://github.com/user-attachments/assets/84d18db9-9a69-42de-be56-c367989feef7" />
 
- 
 ### Commentary
-The CPI measures the price of a fixed basket of goods and services (such as food, shelter, clothing and transportation) relative to a base period. Statistics Canada uses 2002 as the base year, so the average CPI in 2002 equals 100. The dotted line on the graph marks this base level: values below 100 mean prices were lower than in 2002, and values above 100 mean prices were higher. In September 2026 the CPI was 170.0, meaning prices were about 70% higher than in 2002.
- 
-Some interesting parts of the graph:
-- **World War I:** inflation rose sharply, peaking at about 21.6% in mid-1920.
-- **Deflation in the 1920s and 1930s:** prices fell by about 17.8% in 1921 after the war, and again during the Great Depression, with annual inflation reaching about −12.0% in 1931.
-- **After World War II:** inflation spiked to about 17.5% in 1948, and again to about 13.0% in 1951.
-- **The 1970s and early 1980s:** inflation stayed high for over a decade, peaking at about 12.9% in 1981. This is also when the CPI line starts rising steeply.
-- **Stability since the early 1990s:** after the Bank of Canada began targeting inflation in 1991, inflation stayed close to 2%, averaging about 1.76% from 1992 to 2020.
-- **The 2022 spike:** inflation rose to about 8.1% in mid-2022 after the COVID-19 pandemic, the highest in about 40 years.
+The blue CPI line shows the overall price level, while the orange line shows how quickly prices were changing at each point in time. The most useful insight comes from reading them together: the CPI line rises steeply whenever the orange line stays high for several years in a row, such as in the 1970s and early 1980s, and flattens out when the orange line is near or below zero.
 
-Using NumPy, the average annual inflation rate over the whole data set (1915–2026) is about **3.13%**.
+The graph also shows that inflation has become much more stable over time. Before the 1950s, the orange line swings sharply in both directions, with large spikes around both World Wars and periods of deflation (when prices actually fell) after World War I and during the Great Depression. Since the early 1990s, when the Bank of Canada began targeting inflation, it has stayed in a much narrower range around 2%, with the post-pandemic spike in 2022 as the main exception.
+
+The dotted line marks the base level, where the CPI equals 100. Since 2002 is the base year, the blue line crosses it around 2002. Prices to the left of that point are lower than 2002 prices, and prices to the right are higher.
+
+Using NumPy, the average annual inflation rate across the whole data set is about 3.13%. This is higher than the roughly 2% seen in recent decades because of the large swings in the early years.
  
 ## Sample Output
 **Example 1: $100 from September 2002 to September 2025**
