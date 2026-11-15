@@ -59,6 +59,7 @@ Dates can be entered in either order. If the second date is before the first, th
  
 6. Run `CPI_Annual_Inflation_Percentage_Change_Graph.py`
 7. The average annual inflation rate is printed, the graph is saved as `CPI_and_Annual_Inflation_Graph.png`, and the graph opens in a new window. Close the window to end the program.
+
 Make sure `STATIC_INFLATIONCALC.csv` is in the same folder as both programs.
  
 ## CPI Graph
